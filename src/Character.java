@@ -99,4 +99,8 @@ public class Character extends Rectangle {
         setI(kI);
         setD(kD);
     }
+
+    public int getError() {
+        return Setpoint.getInstance().x - this.x;
+    }
 }
