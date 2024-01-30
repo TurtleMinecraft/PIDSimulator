@@ -1,8 +1,10 @@
-import textfields.BaseTextField;
+package simulator;
+
+import simulator.information.Status;
+import simulator.textfields.BaseTextField;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Set;
 
 public class Window extends JPanel {
 
@@ -17,6 +19,7 @@ public class Window extends JPanel {
     private final BaseTextField kPField;
     private final BaseTextField kIField;
     private final BaseTextField kDField;
+    private final Status status;
 
     private Window() {
         super(IS_DOUBLE_BUFFERED);
@@ -27,6 +30,7 @@ public class Window extends JPanel {
         character = Character.getInstance();
         setpoint = Setpoint.getInstance();
         rerunButton = RerunButton.getInstance();
+        status = Status.getInstance();
         kPField = new BaseTextField("kP", 300, 30);
         kIField = new BaseTextField("kI", 600, 30);
         kDField = new BaseTextField("kD", 900, 30);
@@ -34,6 +38,7 @@ public class Window extends JPanel {
         this.add(kPField);
         this.add(kIField);
         this.add(kDField);
+        this.add(status);
     }
 
     @Override
@@ -59,6 +64,7 @@ public class Window extends JPanel {
         delay(0.02);
         character.update();
         character.setPID(kPField.getValue(), kIField.getValue(), kDField.getValue());
+        status.update();
         repaint();
     }
 

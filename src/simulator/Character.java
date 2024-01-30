@@ -1,3 +1,5 @@
+package simulator;
+
 import java.awt.*;
 
 public class Character extends Rectangle {
@@ -24,6 +26,9 @@ public class Character extends Rectangle {
     private double lastTimestamp;
     private double lastError;
     private double lastSpeed;
+    private double error;
+    private double dt;
+    private double errorRate;
 
     public static Character getInstance() {
         if (instance == null) {
@@ -44,9 +49,9 @@ public class Character extends Rectangle {
     }
 
     public void update() {
-        double error = Setpoint.getInstance().x - this.x;
-        double dt = System.currentTimeMillis() - lastTimestamp;
-        double errorRate = (error - lastError) / dt;
+        error = Setpoint.getInstance().x - this.x;
+        dt = System.currentTimeMillis() - lastTimestamp;
+        errorRate = (error - lastError) / dt;
         if (Math.abs(error) < I_ZONE) errorSum += error;
         int moveValue = (int) (error * kP + errorSum * kI + errorRate * kD);
         moveValue = (int) normalizeSpeed(moveValue);
@@ -99,4 +104,13 @@ public class Character extends Rectangle {
         setI(kI);
         setD(kD);
     }
+
+    public double getError() {
+        return error;
+    }
+
+    public double getRate() {
+        return errorRate;
+    }
+
 }
