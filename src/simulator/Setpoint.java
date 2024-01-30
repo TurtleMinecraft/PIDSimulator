@@ -1,3 +1,5 @@
+package simulator;
+
 import java.awt.*;
 
 public class Setpoint extends Rectangle {

@@ -1,8 +1,10 @@
-import textfields.BaseTextField;
+package simulator;
+
+import simulator.information.Status;
+import simulator.textfields.BaseTextField;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Set;
 
 public class Window extends JPanel {
 

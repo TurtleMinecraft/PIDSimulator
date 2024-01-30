@@ -1,4 +1,4 @@
-package textfields;
+package simulator.textfields;
 
 import javax.swing.*;
 import java.awt.*;
