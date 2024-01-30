@@ -50,9 +50,9 @@ public class Character extends Rectangle {
         if (Math.abs(error) < I_ZONE) errorSum += error;
         int moveValue = (int) (error * kP + errorSum * kI + errorRate * kD);
         moveValue = (int) normalizeSpeed(moveValue);
-        if (Math.abs(moveValue - lastSpeed * Math.signum(lastSpeed)) > MAX_ACCELERATION) {
-            if (moveValue > 0) moveValue = (int) (lastSpeed + MAX_ACCELERATION);
-            if (moveValue < 0) moveValue = (int) (lastSpeed - MAX_ACCELERATION);
+        if (Math.abs(moveValue - lastSpeed) > MAX_ACCELERATION) {
+            if (lastSpeed > moveValue) moveValue = (int) (lastSpeed - MAX_ACCELERATION);
+            if (lastSpeed < moveValue) moveValue = (int) (lastSpeed + MAX_ACCELERATION);
         }
         this.translate(moveValue, 0);
         lastError = error;
