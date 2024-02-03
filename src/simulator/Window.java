@@ -19,6 +19,9 @@ public class Window extends JPanel {
     private final BaseTextField kPField;
     private final BaseTextField kIField;
     private final BaseTextField kDField;
+    private final BaseTextField kSField;
+    private final BaseTextField kVField;
+    private final BaseTextField kAField;
     private final Status status;
 
     private Window() {
@@ -34,10 +37,16 @@ public class Window extends JPanel {
         kPField = new BaseTextField("kP", 300, 30);
         kIField = new BaseTextField("kI", 600, 30);
         kDField = new BaseTextField("kD", 900, 30);
+        kSField = new BaseTextField("kS", 300, 100);
+        kVField = new BaseTextField("kV", 600, 100);
+        kAField = new BaseTextField("kA", 900, 100);
         this.add(rerunButton);
         this.add(kPField);
         this.add(kIField);
         this.add(kDField);
+        this.add(kSField);
+        this.add(kVField);
+        this.add(kAField);
         this.add(status);
     }
 
@@ -62,8 +71,9 @@ public class Window extends JPanel {
 
     private void update() {
         delay(0.02);
-        character.update();
         character.setPID(kPField.getValue(), kIField.getValue(), kDField.getValue());
+        character.setFF(kSField.getValue(), kVField.getValue(), kAField.getValue());
+        character.update();
         status.update();
         repaint();
     }

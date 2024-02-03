@@ -37,7 +37,7 @@ public class Status extends JPanel {
     }
 
     public void configureCharacterError() {
-        characterError = new JTextField("Error: " + Character.getInstance().getError());
+        characterError = new JTextField();
         characterError.setSize(200, 50);
         characterError.setEditable(false);
         characterError.setFont(new Font(Font.MONOSPACED, Font.PLAIN, FONT_SIZE));
@@ -47,7 +47,7 @@ public class Status extends JPanel {
     }
 
     public void configureErrorRate() {
-        errorRate = new JTextField("Error rate: " + Character.getInstance().getRate());
+        errorRate = new JTextField();
         errorRate.setBounds(0, 50, 400, 50);
         errorRate.setEditable(false);
         errorRate.setFont(new Font(Font.MONOSPACED, Font.PLAIN, FONT_SIZE));
@@ -57,7 +57,5 @@ public class Status extends JPanel {
     }
 
     public void update() {
-        characterError.setText("Error: " + Character.getInstance().getError());
-        errorRate.setText("Error rate: " + Character.getInstance().getRate());
     }
 }
