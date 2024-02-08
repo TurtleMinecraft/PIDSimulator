@@ -9,6 +9,7 @@ import java.awt.*;
 
 public class Character extends Rectangle {
 
+    private static final int MILLISECONDS_IN_SECOND = 1000;
     private static final int WIDTH = 32;
     private static final int HEIGHT = 32;
 
@@ -50,8 +51,8 @@ public class Character extends Rectangle {
 
     public void update() {
         if (!commandFinished) {
-            commandFinished = (System.currentTimeMillis() - lastTimeNotOnTarget >= pidSettings.getWaitTime() * 1000 &&
-                    pidController.isOnTarget());
+            commandFinished = (System.currentTimeMillis() - lastTimeNotOnTarget >=
+                    pidSettings.getWaitTime() * MILLISECONDS_IN_SECOND && pidController.isOnTarget());
             int moveValue = pidController.calculate(this.x, Setpoint.getInstance().x) +
                     feedForwardController.calculate(this.x, Setpoint.getInstance().x);
             moveValue = (int) normalizeSpeed(moveValue);
