@@ -11,6 +11,8 @@ public class Window extends JPanel {
     private static final int WINDOW_WIDTH = 1280;
     private static final int WINDOW_HEIGHT = 792;
 
+    private static final double PERIODIC_FRAME = 0.02;
+
     private static final boolean IS_DOUBLE_BUFFERED = true;
 
     private final Character character;
@@ -68,7 +70,7 @@ public class Window extends JPanel {
     }
 
     private void update() {
-        delay(0.02);
+        delay(PERIODIC_FRAME);
         character.setPID(kPField.getValue(), kIField.getValue(), kDField.getValue(), toleranceField.getValue(),
                 waitTimeField.getValue());
         character.setFF(kSField.getValue(), kVField.getValue(), kAField.getValue());
