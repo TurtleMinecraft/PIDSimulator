@@ -19,6 +19,8 @@ public class Window extends JPanel {
     private final BaseTextField kPField;
     private final BaseTextField kIField;
     private final BaseTextField kDField;
+    private final BaseTextField toleranceField;
+    private final BaseTextField waitTimeField;
     private final BaseTextField kSField;
     private final BaseTextField kVField;
     private final BaseTextField kAField;
@@ -37,17 +39,13 @@ public class Window extends JPanel {
         kPField = new BaseTextField("kP", 300, 30);
         kIField = new BaseTextField("kI", 600, 30);
         kDField = new BaseTextField("kD", 900, 30);
+        toleranceField = new BaseTextField("tolerance", 450, 65);
+        waitTimeField = new BaseTextField("wait time", 750, 65);
         kSField = new BaseTextField("kS", 300, 100);
         kVField = new BaseTextField("kV", 600, 100);
         kAField = new BaseTextField("kA", 900, 100);
+        configureTextFields();
         this.add(rerunButton);
-        this.add(kPField);
-        this.add(kIField);
-        this.add(kDField);
-        this.add(kSField);
-        this.add(kVField);
-        this.add(kAField);
-        this.add(status);
     }
 
     @Override
@@ -71,11 +69,24 @@ public class Window extends JPanel {
 
     private void update() {
         delay(0.02);
-        character.setPID(kPField.getValue(), kIField.getValue(), kDField.getValue());
+        character.setPID(kPField.getValue(), kIField.getValue(), kDField.getValue(), toleranceField.getValue(),
+                waitTimeField.getValue());
         character.setFF(kSField.getValue(), kVField.getValue(), kAField.getValue());
         character.update();
         status.update();
         repaint();
+    }
+
+    private void configureTextFields() {
+        this.add(kPField);
+        this.add(kIField);
+        this.add(kDField);
+        this.add(toleranceField);
+        this.add(waitTimeField);
+        this.add(kSField);
+        this.add(kVField);
+        this.add(kAField);
+        this.add(status);
     }
 
     public static void initGame() {

@@ -9,6 +9,8 @@ public class PIDController {
     private double kP;
     private double kI;
     private double kD;
+    private double tolerance;
+    private double waitTime;
 
     private double errorSum;
     private double lastTimestamp;
@@ -17,18 +19,22 @@ public class PIDController {
     private double error;
     private double dt;
     private double errorRate;
+    private boolean onTarget;
 
     public PIDController(PIDSettings pidSettings) {
         this.kP = pidSettings.getP();
         this.kI = pidSettings.getI();
         this.kD = pidSettings.getD();
+        this.tolerance = pidSettings.getTolerance();
+        this.waitTime = pidSettings.getWaitTime();
         errorSum = 0;
         lastTimestamp = System.currentTimeMillis();
         lastError = 0;
+        errorRate = 0;
     }
 
-    public PIDController(double kP, double kI, double kD) {
-        this(new PIDSettings(kP, kI, kD));
+    public PIDController(double kP, double kI, double kD, double tolerance, double waitTime) {
+        this(new PIDSettings(kP, kI, kD, tolerance, waitTime));
     }
 
     public void setP(double kP) {
@@ -49,12 +55,25 @@ public class PIDController {
         setD(kD);
     }
 
+    public void setTolerance(double tolerance) {
+        this.tolerance = tolerance;
+    }
+
+    public void setWaitTime(double waitTime) {
+        this.waitTime = waitTime;
+    }
+
+    public boolean isOnTarget() {
+        return onTarget;
+    }
+
     public void setPID(PIDSettings pidSettings) {
         setPID(pidSettings.getP(), pidSettings.getI(), pidSettings.getD());
     }
 
     public int calculate(double source, double setpoint) {
         error = setpoint - source;
+        onTarget = (Math.abs(error) <= tolerance);
         dt = System.currentTimeMillis() - lastTimestamp;
         errorRate = (error - lastError) / dt;
         if (Math.abs(error) < I_ZONE) errorSum += error;
@@ -68,5 +87,10 @@ public class PIDController {
         errorSum = 0;
         lastTimestamp = System.currentTimeMillis();
         lastError = 0;
+        onTarget = false;
+    }
+
+    public double getErrorRate() {
+        return errorRate;
     }
 }
