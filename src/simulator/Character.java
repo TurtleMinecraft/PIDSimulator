@@ -19,10 +19,10 @@ public class Character extends Rectangle {
     private static final int MAX_ACCELERATION = 2;
     private static final int FRICTION = 3;
 
-    private final PIDController pidController;
-    private final FeedForwardController feedForwardController;
     private final PIDSettings pidSettings;
+    private final PIDController pidController;
     private final FeedForwardSettings feedForwardSettings;
+    private final FeedForwardController feedForwardController;
 
     private static Character instance;
 
