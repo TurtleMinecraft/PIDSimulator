@@ -8,11 +8,10 @@ import java.awt.*;
 
 public class Window extends JPanel {
 
+    public static final double PERIODIC_FRAME = 0.02;
+
     private static final int WINDOW_WIDTH = 1280;
     private static final int WINDOW_HEIGHT = 792;
-
-    private static final double PERIODIC_FRAME = 0.02;
-
     private static final boolean IS_DOUBLE_BUFFERED = true;
 
     private final Character character;

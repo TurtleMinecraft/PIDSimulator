@@ -1,13 +1,12 @@
 package simulator.control;
 
+import simulator.Window;
+
 public class FeedForwardController {
 
     private double kS;
-
     private double kV;
-
     private double kA;
-
     private double previousTarget;
 
     public FeedForwardController(double kS, double kV, double kA) {
@@ -62,7 +61,7 @@ public class FeedForwardController {
 
     public int calculate(double source, double setpoint) {
         double error = setpoint - source;
-        double targetDerivative = (setpoint - previousTarget) / 0.02;
+        double targetDerivative = (setpoint - previousTarget) / Window.PERIODIC_FRAME;
         previousTarget = setpoint;
         return (int) (kS * Math.signum(error) + kV * setpoint + kA * targetDerivative);
     }
