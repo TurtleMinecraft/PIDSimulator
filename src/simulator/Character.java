@@ -24,11 +24,12 @@ public class Character extends Rectangle {
     private final FeedForwardSettings feedForwardSettings;
     private final FeedForwardController feedForwardController;
 
-    private static Character instance;
 
     private double lastTimeNotOnTarget;
     private double lastSpeed;
     private boolean commandFinished;
+
+    private static Character instance;
 
     public static Character getInstance() {
         if (instance == null) {
