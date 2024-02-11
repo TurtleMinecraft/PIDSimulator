@@ -98,6 +98,10 @@ public class Character extends Rectangle {
         pidSettings.setWaitTime(waitTime);
     }
 
+    public void setIZone(int iZone) {
+        pidController.setIZone(iZone);
+    }
+
     public PIDController getPIDController() {
         return pidController;
     }

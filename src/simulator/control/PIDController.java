@@ -1,14 +1,13 @@
 package simulator.control;
 
-import simulator.Setpoint;
-
 public class PIDController {
 
-    private static final int I_ZONE = 200;
+    private static final int DEFAULT_I_ZONE = 200;
 
     private double kP;
     private double kI;
     private double kD;
+    private double iZone;
     private double tolerance;
     private double waitTime;
 
@@ -25,6 +24,7 @@ public class PIDController {
         this.kP = pidSettings.getP();
         this.kI = pidSettings.getI();
         this.kD = pidSettings.getD();
+        this.iZone = DEFAULT_I_ZONE;
         this.tolerance = pidSettings.getTolerance();
         this.waitTime = pidSettings.getWaitTime();
         errorSum = 0;
@@ -71,12 +71,16 @@ public class PIDController {
         setPID(pidSettings.getP(), pidSettings.getI(), pidSettings.getD());
     }
 
+    public void setIZone(int iZone) {
+        this.iZone = iZone;
+    }
+
     public int calculate(double source, double setpoint) {
         error = setpoint - source;
         onTarget = (Math.abs(error) <= tolerance);
         dt = System.currentTimeMillis() - lastTimestamp;
         errorRate = (error - lastError) / dt;
-        if (Math.abs(error) < I_ZONE) errorSum += error;
+        if (Math.abs(error) < iZone) errorSum += error;
         int moveValue = (int) (error * kP + errorSum * kI + errorRate * kD);
         lastError = error;
         lastTimestamp = System.currentTimeMillis();
