@@ -26,6 +26,7 @@ public class Window extends JPanel {
     private final BaseTextField kSField;
     private final BaseTextField kVField;
     private final BaseTextField kAField;
+    private final BaseTextField setpointField;
     private final Status status;
 
     private Window() {
@@ -47,6 +48,7 @@ public class Window extends JPanel {
         kSField = new BaseTextField("kS", 300, 100);
         kVField = new BaseTextField("kV", 600, 100);
         kAField = new BaseTextField("kA", 900, 100);
+        setpointField = new BaseTextField("setpoint", 30, 722);
         configureTextFields();
         this.add(rerunButton);
     }
@@ -72,6 +74,7 @@ public class Window extends JPanel {
 
     private void update() {
         delay(PERIODIC_FRAME);
+        setpoint.setPosition((int) setpointField.getValue());
         character.setPID(kPField.getValue(), kIField.getValue(), kDField.getValue(), toleranceField.getValue(),
                 waitTimeField.getValue());
         character.setIZone((int) iZoneField.getValue());
@@ -92,6 +95,7 @@ public class Window extends JPanel {
         this.add(kVField);
         this.add(kAField);
         this.add(status);
+        this.add(setpointField);
     }
 
     public static void initGame() {
