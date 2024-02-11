@@ -22,4 +22,8 @@ public class Setpoint extends Rectangle {
     private Setpoint(int width, int height, int sourceX, int sourceY) {
         super(sourceX, sourceY, width, height);
     }
+
+    public void setPosition(int position) {
+        this.x = position;
+    }
 }
