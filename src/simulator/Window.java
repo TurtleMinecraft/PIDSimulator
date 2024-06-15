@@ -57,6 +57,18 @@ public class Window extends JPanel {
         this.add(controlType);
     }
 
+    public static void initGame() {
+        JFrame frame = new JFrame();
+        Window window = new Window();
+        frame.add(window);
+        frame.pack();
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+        while (true) {
+            window.update();
+        }
+    }
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -103,17 +115,5 @@ public class Window extends JPanel {
         this.add(kAField);
         this.add(status);
         this.add(setpointField);
-    }
-
-    public static void initGame() {
-        JFrame frame = new JFrame();
-        Window window = new Window();
-        frame.add(window);
-        frame.pack();
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-        while (true) {
-            window.update();
-        }
     }
 }
