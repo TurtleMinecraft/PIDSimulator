@@ -71,7 +71,6 @@ public class Character extends Rectangle {
                     if (lastSpeed < moveValue) moveValue = (int) (lastSpeed + MAX_ACCELERATION);
                 }
                 lastSpeed = moveValue;
-                System.out.println(lastSpeed);
             }
         }
         if (!pidController.isOnTarget()) {
