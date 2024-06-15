@@ -51,31 +51,39 @@ public class Character extends Rectangle {
     public void update() {
         if (!commandFinished) {
             if (ControlType.getInstance().getSelectedIndex() == 0) {
-                commandFinished = (System.currentTimeMillis() - lastTimeNotOnTarget >=
-                        pidSettings.getWaitTime() * MILLISECONDS_IN_SECOND && pidController.isOnTarget());
-                int moveValue = pidController.calculate(this.x, Setpoint.getInstance().x) +
-                        feedForwardController.calculate(this.x, Setpoint.getInstance().x);
-                moveValue = (int) normalizeSpeed(moveValue);
-                if (Math.abs(moveValue - lastSpeed) > MAX_ACCELERATION) {
-                    if (lastSpeed > moveValue) moveValue = (int) (lastSpeed - MAX_ACCELERATION);
-                    if (lastSpeed < moveValue) moveValue = (int) (lastSpeed + MAX_ACCELERATION);
-                }
-                this.translate(moveValue, 0);
-                lastSpeed = moveValue;
+                runPosition();
             } else if (ControlType.getInstance().getSelectedIndex() == 1) {
-                int moveValue = pidController.calculate(lastSpeed, Setpoint.getInstance().x) +
-                        feedForwardController.calculate(lastSpeed, Setpoint.getInstance().x);
-                moveValue = (int) normalizeSpeed(moveValue);
-                if (Math.abs(moveValue - lastSpeed) > MAX_ACCELERATION) {
-                    if (lastSpeed > moveValue) moveValue = (int) (lastSpeed - MAX_ACCELERATION);
-                    if (lastSpeed < moveValue) moveValue = (int) (lastSpeed + MAX_ACCELERATION);
-                }
-                lastSpeed = moveValue;
+                runVelocity();
             }
         }
         if (!pidController.isOnTarget()) {
             lastTimeNotOnTarget = System.currentTimeMillis();
         }
+    }
+
+    private void runPosition() {
+        commandFinished = (System.currentTimeMillis() - lastTimeNotOnTarget >=
+                pidSettings.getWaitTime() * MILLISECONDS_IN_SECOND && pidController.isOnTarget());
+        int moveValue = pidController.calculate(this.x, Setpoint.getInstance().x) +
+                feedForwardController.calculate(this.x, Setpoint.getInstance().x);
+        moveValue = (int) normalizeSpeed(moveValue);
+        if (Math.abs(moveValue - lastSpeed) > MAX_ACCELERATION) {
+            if (lastSpeed > moveValue) moveValue = (int) (lastSpeed - MAX_ACCELERATION);
+            if (lastSpeed < moveValue) moveValue = (int) (lastSpeed + MAX_ACCELERATION);
+        }
+        this.translate(moveValue, 0);
+        lastSpeed = moveValue;
+    }
+
+    private void runVelocity() {
+        int moveValue = pidController.calculate(lastSpeed, Setpoint.getInstance().x) +
+                feedForwardController.calculate(lastSpeed, Setpoint.getInstance().x);
+        moveValue = (int) normalizeSpeed(moveValue);
+        if (Math.abs(moveValue - lastSpeed) > MAX_ACCELERATION) {
+            if (lastSpeed > moveValue) moveValue = (int) (lastSpeed - MAX_ACCELERATION);
+            if (lastSpeed < moveValue) moveValue = (int) (lastSpeed + MAX_ACCELERATION);
+        }
+        lastSpeed = moveValue;
     }
 
     private double normalizeSpeed(double speed) {
