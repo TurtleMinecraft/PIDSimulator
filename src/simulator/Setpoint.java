@@ -1,5 +1,7 @@
 package simulator;
 
+import simulator.control.ControlType;
+
 import java.awt.*;
 
 public class Setpoint extends Rectangle {
@@ -23,7 +25,12 @@ public class Setpoint extends Rectangle {
         super(sourceX, sourceY, width, height);
     }
 
-    public void setPosition(int position) {
+    public void setSetpoint(int position) {
         this.x = position;
+        if (ControlType.getInstance().getSelectedIndex() != 0) {
+            this.setSize(-1, -1);
+        } else {
+            this.setSize(WIDTH, HEIGHT);
+        }
     }
 }
