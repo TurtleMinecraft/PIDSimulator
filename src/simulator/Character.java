@@ -48,6 +48,22 @@ public class Character extends Rectangle {
         lastTimeNotOnTarget = System.currentTimeMillis();
     }
 
+    public static void reset() {
+        Character character = getInstance();
+        character.lastSpeed = 0;
+        if (ControlType.getInstance().getSelectedIndex() == 0) {
+            character.setLocation(POSITION_SOURCE_X, POSITION_SOURCE_Y);
+        } else {
+            if (ControlType.getInstance().getSelectedIndex() == 1) {
+                character.setLocation(VELOCITY_SOURCE_X, VELOCITY_SOURCE_Y);
+            }
+        }
+        character.commandFinished = false;
+        character.lastTimeNotOnTarget = System.currentTimeMillis();
+        character.pidController.reset();
+        character.feedForwardController.reset();
+    }
+
     public void update() {
         if (!commandFinished) {
             if (ControlType.getInstance().getSelectedIndex() == 0) {
@@ -59,6 +75,32 @@ public class Character extends Rectangle {
         if (!pidController.isOnTarget()) {
             lastTimeNotOnTarget = System.currentTimeMillis();
         }
+    }
+
+    public void setPID(double kP, double kI, double kD, double tolerance, double waitTime) {
+        pidController.setPID(kP, kI, kD);
+        pidController.setTolerance(tolerance);
+        pidSettings.setWaitTime(waitTime);
+    }
+
+    public void setIZone(int iZone) {
+        pidController.setIZone(iZone);
+    }
+
+    public PIDController getPIDController() {
+        return pidController;
+    }
+
+    public double getError() {
+        return Setpoint.getInstance().x - this.x;
+    }
+
+    public void setFF(double kS, double kV, double kA) {
+        feedForwardController.setGains(kS, kV, kA);
+    }
+
+    public double getLastSpeed() {
+        return lastSpeed;
     }
 
     private void runPosition() {
@@ -98,47 +140,5 @@ public class Character extends Rectangle {
     private double normalizeNoFriction(double speed) {
         if (Math.abs(speed) > MAX_SPEED) speed = (int) (MAX_SPEED * Math.signum(speed));
         return speed;
-    }
-
-    public static void reset() {
-        Character character = getInstance();
-        character.lastSpeed = 0;
-        if (ControlType.getInstance().getSelectedIndex() == 0) {
-            character.setLocation(POSITION_SOURCE_X, POSITION_SOURCE_Y);
-        } else {
-            if (ControlType.getInstance().getSelectedIndex() == 1) {
-                character.setLocation(VELOCITY_SOURCE_X, VELOCITY_SOURCE_Y);
-            }
-        }
-        character.commandFinished = false;
-        character.lastTimeNotOnTarget = System.currentTimeMillis();
-        character.pidController.reset();
-        character.feedForwardController.reset();
-    }
-
-    public void setPID(double kP, double kI, double kD, double tolerance, double waitTime) {
-        pidController.setPID(kP, kI, kD);
-        pidController.setTolerance(tolerance);
-        pidSettings.setWaitTime(waitTime);
-    }
-
-    public void setIZone(int iZone) {
-        pidController.setIZone(iZone);
-    }
-
-    public PIDController getPIDController() {
-        return pidController;
-    }
-
-    public double getError() {
-        return Setpoint.getInstance().x - this.x;
-    }
-
-    public void setFF(double kS, double kV, double kA) {
-        feedForwardController.setGains(kS, kV, kA);
-    }
-
-    public double getLastSpeed() {
-        return lastSpeed;
     }
 }
