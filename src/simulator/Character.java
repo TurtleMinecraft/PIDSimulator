@@ -103,6 +103,10 @@ public class Character extends Rectangle {
         return lastSpeed;
     }
 
+    public boolean commandEnded() {
+        return commandFinished;
+    }
+
     private void runPosition() {
         commandFinished = (System.currentTimeMillis() - lastTimeNotOnTarget >=
                 pidSettings.getWaitTime() * MILLISECONDS_IN_SECOND && pidController.isOnTarget());

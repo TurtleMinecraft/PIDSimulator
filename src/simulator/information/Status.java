@@ -16,6 +16,7 @@ public class Status extends JPanel {
     private static final int FONT_SIZE = 20;
     private BaseInfoField characterError;
     private BaseInfoField errorRate;
+    private BaseInfoField commandEnded;
 
     private static Status instance;
 
@@ -31,8 +32,11 @@ public class Status extends JPanel {
                 "Error: " + Character.getInstance().getError());
         errorRate = new BaseInfoField(0, 50, 400, 50,
                 "Error rate: " + Character.getInstance().getPIDController().getErrorRate());
+        commandEnded = new BaseInfoField(0, 100, 400, 50, "Command ended: " +
+                Character.getInstance().commandEnded());
         this.add(characterError);
         this.add(errorRate);
+        this.add(commandEnded);
         this.setLayout(null);
         this.setVisible(true);
         this.setBounds(X, Y, WIDTH, HEIGHT);
@@ -42,11 +46,13 @@ public class Status extends JPanel {
     public void update() {
         if (ControlType.getInstance().getSelectedIndex() == ControlType.Types.POSITION.index) {
             characterError.setText("Error: " + (Setpoint.getInstance().x - Character.getInstance().x));
-            errorRate.setText("Error rate: " + (Character.getInstance().getPIDController().getErrorRate()));
+            errorRate.setText("Error rate: " + Character.getInstance().getPIDController().getErrorRate());
+            commandEnded.setText("Command ended: " + Character.getInstance().commandEnded());
         } else {
             if (ControlType.getInstance().getSelectedIndex() == ControlType.Types.VELOCITY.index) {
                 characterError.setText("Error: " + (Setpoint.getInstance().x - Character.getInstance().getLastSpeed()));
-                errorRate.setText("Error rate: " + (Character.getInstance().getPIDController().getErrorRate()));
+                errorRate.setText("Error rate: " + Character.getInstance().getPIDController().getErrorRate());
+                commandEnded.setText("Command ended: " + Character.getInstance().commandEnded());
             }
         }
     }
