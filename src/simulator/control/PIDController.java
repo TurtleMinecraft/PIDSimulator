@@ -9,7 +9,6 @@ public class PIDController {
     private double kD;
     private double iZone;
     private double tolerance;
-    private double waitTime;
 
     private double errorSum;
     private double lastTimestamp;
@@ -26,7 +25,6 @@ public class PIDController {
         this.kD = pidSettings.getD();
         this.iZone = DEFAULT_I_ZONE;
         this.tolerance = pidSettings.getTolerance();
-        this.waitTime = pidSettings.getWaitTime();
         errorSum = 0;
         lastTimestamp = System.currentTimeMillis();
         lastError = 0;
@@ -57,10 +55,6 @@ public class PIDController {
 
     public void setTolerance(double tolerance) {
         this.tolerance = tolerance;
-    }
-
-    public void setWaitTime(double waitTime) {
-        this.waitTime = waitTime;
     }
 
     public boolean isOnTarget() {
