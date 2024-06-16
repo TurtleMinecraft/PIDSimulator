@@ -41,7 +41,7 @@ public class Character extends Rectangle {
     private Character(int width, int height, int sourceX, int sourceY) {
         super(sourceX, sourceY, width, height);
         lastSpeed = 0;
-        pidSettings = new PIDSettings(0, 0, 0, 10, 1);
+        pidSettings = new PIDSettings(0, 0, 0, 0, 0);
         feedForwardSettings = new FeedForwardSettings(0, 0, 0);
         pidController = new PIDController(pidSettings);
         feedForwardController = new FeedForwardController(feedForwardSettings);
@@ -134,11 +134,6 @@ public class Character extends Rectangle {
             if (speed < 0) speed += FRICTION;
             if (Math.abs(speed) > MAX_SPEED) speed = (int) (MAX_SPEED * Math.signum(speed));
         } else if (Math.abs(speed) < FRICTION) speed = 0;
-        return speed;
-    }
-
-    private double normalizeNoFriction(double speed) {
-        if (Math.abs(speed) > MAX_SPEED) speed = (int) (MAX_SPEED * Math.signum(speed));
         return speed;
     }
 }
