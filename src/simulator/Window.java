@@ -9,11 +9,23 @@ import java.awt.*;
 
 public class Window extends JPanel {
 
+    private static final int MILLISECONDS_IN_SECOND = 1000;
     public static final double PERIODIC_FRAME = 0.02;
 
     private static final int WINDOW_WIDTH = 1280;
     private static final int WINDOW_HEIGHT = 792;
     private static final boolean IS_DOUBLE_BUFFERED = true;
+
+    private static final Point P_FIELD_LOCATION = new Point(300, 30);
+    private static final Point I_FIELD_LOCATION = new Point(600, 30);
+    private static final Point D_FIELD_LOCATION = new Point(900, 30);
+    private static final Point I_ZONE_FIELD_LOCATION = new Point(30, 30);
+    private static final Point TOLERANCE_FIELD_LOCATION = new Point(450, 65);
+    private static final Point WAIT_TIME_FIELD_LOCATION = new Point(750, 65);
+    private static final Point S_FIELD_LOCATION = new Point(300, 100);
+    private static final Point V_FIELD_LOCATION = new Point(600, 100);
+    private static final Point A_FIELD_LOCATION = new Point(900, 100);
+    private static final Point SETPOINT_FIELD_LOCATION = new Point(30, 722);
 
     private final Character character;
     private final Setpoint setpoint;
@@ -41,16 +53,16 @@ public class Window extends JPanel {
         setpoint = Setpoint.getInstance();
         rerunButton = RerunButton.getInstance();
         status = Status.getInstance();
-        kPField = new BaseTextField("kP", 300, 30);
-        kIField = new BaseTextField("kI", 600, 30);
-        kDField = new BaseTextField("kD", 900, 30);
-        iZoneField = new BaseTextField("i zone", 30, 30);
-        toleranceField = new BaseTextField("tolerance", 450, 65);
-        waitTimeField = new BaseTextField("wait time", 750, 65);
-        kSField = new BaseTextField("kS", 300, 100);
-        kVField = new BaseTextField("kV", 600, 100);
-        kAField = new BaseTextField("kA", 900, 100);
-        setpointField = new BaseTextField("setpoint", 30, 722);
+        kPField = new BaseTextField("kP", P_FIELD_LOCATION);
+        kIField = new BaseTextField("kI", I_FIELD_LOCATION);
+        kDField = new BaseTextField("kD", D_FIELD_LOCATION);
+        iZoneField = new BaseTextField("i zone", I_ZONE_FIELD_LOCATION);
+        toleranceField = new BaseTextField("tolerance", TOLERANCE_FIELD_LOCATION);
+        waitTimeField = new BaseTextField("wait time", WAIT_TIME_FIELD_LOCATION);
+        kSField = new BaseTextField("kS", S_FIELD_LOCATION);
+        kVField = new BaseTextField("kV", V_FIELD_LOCATION);
+        kAField = new BaseTextField("kA", A_FIELD_LOCATION);
+        setpointField = new BaseTextField("setpoint", SETPOINT_FIELD_LOCATION);
         controlType = ControlType.getInstance();
         configureTextFields();
         this.add(rerunButton);
@@ -84,7 +96,7 @@ public class Window extends JPanel {
 
     private void delay(double seconds) {
         long currentTime = System.currentTimeMillis();
-        long targetTime = (long) (System.currentTimeMillis() + seconds * 1000);
+        long targetTime = (long) (System.currentTimeMillis() + seconds * MILLISECONDS_IN_SECOND);
         while (targetTime > currentTime) {
             currentTime = System.currentTimeMillis();
             repaint(character);

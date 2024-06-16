@@ -17,6 +17,10 @@ public class BaseTextField extends JTextField {
         this.setFont(new Font(Font.MONOSPACED, Font.PLAIN, FONT_SIZE));
     }
 
+    public BaseTextField(String initialText, Point position) {
+        this(initialText, position.x, position.y);
+    }
+
     public double getValue() {
         try {
             return Double.parseDouble(this.getText());
