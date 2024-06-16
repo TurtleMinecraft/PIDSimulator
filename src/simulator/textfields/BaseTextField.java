@@ -10,15 +10,15 @@ public class BaseTextField extends JTextField {
 
     private static final int FONT_SIZE = 40;
 
-    public BaseTextField(String initialText, int x, int y) {
+    public BaseTextField(int x, int y, String initialText) {
         super(initialText);
         this.setBounds(x, y, FIELD_WIDTH, FIELD_HEIGHT);
         this.setBackground(Color.GRAY);
         this.setFont(new Font(Font.MONOSPACED, Font.PLAIN, FONT_SIZE));
     }
 
-    public BaseTextField(String initialText, Point position) {
-        this(initialText, position.x, position.y);
+    public BaseTextField(Point position, String initialText) {
+        this(position.x, position.y, initialText);
     }
 
     public double getValue() {
