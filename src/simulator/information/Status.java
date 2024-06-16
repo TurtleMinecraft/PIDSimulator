@@ -14,6 +14,14 @@ public class Status extends JPanel {
     private static final int X = 800;
     private static final int Y = 480;
     private static final int FONT_SIZE = 20;
+
+    private static final int INFO_TEXT_WIDTH = 400;
+    private static final int INFO_TEXT_HEIGHT = 50;
+
+    private static final Point ERROR_LOCATION = new Point(0, 0);
+    private static final Point ERROR_RATE_LOCATION = new Point(0, 50);
+    private static final Point COMMAND_ENDED_LOCATION = new Point(0, 100);
+
     private BaseInfoField characterError;
     private BaseInfoField errorRate;
     private BaseInfoField commandEnded;
@@ -28,11 +36,11 @@ public class Status extends JPanel {
     }
 
     private Status() {
-        characterError = new BaseInfoField(0, 0, 400, 50,
+        characterError = new BaseInfoField(ERROR_LOCATION, INFO_TEXT_WIDTH, INFO_TEXT_HEIGHT,
                 "Error: " + Character.getInstance().getError());
-        errorRate = new BaseInfoField(0, 50, 400, 50,
+        errorRate = new BaseInfoField(ERROR_RATE_LOCATION, INFO_TEXT_WIDTH, INFO_TEXT_HEIGHT,
                 "Error rate: " + Character.getInstance().getPIDController().getErrorRate());
-        commandEnded = new BaseInfoField(0, 100, 400, 50, "Command ended: " +
+        commandEnded = new BaseInfoField(COMMAND_ENDED_LOCATION, INFO_TEXT_WIDTH, INFO_TEXT_HEIGHT, "Command ended: " +
                 Character.getInstance().commandEnded());
         this.add(characterError);
         this.add(errorRate);

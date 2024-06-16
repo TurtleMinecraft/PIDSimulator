@@ -17,4 +17,8 @@ public class BaseInfoField extends JTextField {
         this.setBackground(Color.GRAY);
         this.setBorder(new LineBorder(Color.GRAY));
     }
+
+    public BaseInfoField(Point position, int width, int height, String text) {
+        this(position.x, position.y, width, height, text);
+    }
 }
