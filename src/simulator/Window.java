@@ -93,14 +93,18 @@ public class Window extends JPanel {
 
     private void update() {
         delay(PERIODIC_FRAME);
+        configurePIDF();
+        character.update();
+        status.update();
+        repaint();
+    }
+
+    private void configurePIDF() {
         setpoint.setSetpoint((int) setpointField.getValue());
         character.setPID(kPField.getValue(), kIField.getValue(), kDField.getValue(), toleranceField.getValue(),
                 waitTimeField.getValue());
         character.setIZone((int) iZoneField.getValue());
         character.setFF(kSField.getValue(), kVField.getValue(), kAField.getValue());
-        character.update();
-        status.update();
-        repaint();
     }
 
     private void configureTextFields() {
