@@ -63,6 +63,11 @@ public class FeedForwardController {
         double error = setpoint - source;
         double targetDerivative = (setpoint - previousTarget) / Window.PERIODIC_FRAME;
         previousTarget = setpoint;
-        return (int) (kS * Math.signum(error) + kV * setpoint + kA * targetDerivative);
+        double staticVal;
+        if (ControlType.getInstance().getSelectedIndex() == 1) {
+            return (int) (kS + kV * setpoint + kA * targetDerivative);
+        } else {
+            return (int) (kS * Math.signum(error) + kV * setpoint + kA * targetDerivative);
+        }
     }
 }

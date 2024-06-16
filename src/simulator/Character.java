@@ -1,9 +1,6 @@
 package simulator;
 
-import simulator.control.FeedForwardController;
-import simulator.control.FeedForwardSettings;
-import simulator.control.PIDController;
-import simulator.control.PIDSettings;
+import simulator.control.*;
 
 import java.awt.*;
 
@@ -13,8 +10,11 @@ public class Character extends Rectangle {
     private static final int WIDTH = 32;
     private static final int HEIGHT = 32;
 
-    private static final int SOURCE_X = 0;
-    private static final int SOURCE_Y = 320;
+    private static final int POSITION_SOURCE_X = 0;
+    private static final int POSITION_SOURCE_Y = 320;
+
+    private static final int VELOCITY_SOURCE_X = 640;
+    private static final int VELOCITY_SOURCE_Y = 320;
 
     private static final int MAX_SPEED = 120;
     private static final int MAX_ACCELERATION = 2;
@@ -25,7 +25,6 @@ public class Character extends Rectangle {
     private final FeedForwardSettings feedForwardSettings;
     private final FeedForwardController feedForwardController;
 
-
     private double lastTimeNotOnTarget;
     private double lastSpeed;
     private boolean commandFinished;
@@ -34,7 +33,7 @@ public class Character extends Rectangle {
 
     public static Character getInstance() {
         if (instance == null) {
-            instance = new Character(WIDTH, HEIGHT, SOURCE_X, SOURCE_Y);
+            instance = new Character(WIDTH, HEIGHT, POSITION_SOURCE_X, POSITION_SOURCE_Y);
         }
         return instance;
     }
@@ -49,47 +48,33 @@ public class Character extends Rectangle {
         lastTimeNotOnTarget = System.currentTimeMillis();
     }
 
-    public void update() {
-        if (!commandFinished) {
-            commandFinished = (System.currentTimeMillis() - lastTimeNotOnTarget >=
-                    pidSettings.getWaitTime() * MILLISECONDS_IN_SECOND && pidController.isOnTarget());
-            int moveValue = pidController.calculate(this.x, Setpoint.getInstance().x) +
-                    feedForwardController.calculate(this.x, Setpoint.getInstance().x);
-            moveValue = (int) normalizeSpeed(moveValue);
-            if (Math.abs(moveValue - lastSpeed) > MAX_ACCELERATION) {
-                if (lastSpeed > moveValue) moveValue = (int) (lastSpeed - MAX_ACCELERATION);
-                if (lastSpeed < moveValue) moveValue = (int) (lastSpeed + MAX_ACCELERATION);
-            }
-            this.translate(moveValue, 0);
-            lastSpeed = moveValue;
-        }
-        if (!pidController.isOnTarget()) {
-            lastTimeNotOnTarget = System.currentTimeMillis();
-        }
-    }
-
-    private double normalizeSpeed(double speed) {
-        if (speed != 0) {
-            if (speed > 0) speed -= FRICTION;
-            if (speed < 0) speed += FRICTION;
-            if (Math.abs(speed) > MAX_SPEED) speed = (int) (MAX_SPEED * Math.signum(speed));
-        } else if (Math.abs(speed) < FRICTION) speed = 0;
-        return speed;
-    }
-
-    private double normalizeNoFriction(double speed) {
-        if (Math.abs(speed) > MAX_SPEED) speed = (int) (MAX_SPEED * Math.signum(speed));
-        return speed;
-    }
-
     public static void reset() {
         Character character = getInstance();
         character.lastSpeed = 0;
-        character.setLocation(SOURCE_X, SOURCE_Y);
+        if (ControlType.getInstance().getSelectedIndex() == 0) {
+            character.setLocation(POSITION_SOURCE_X, POSITION_SOURCE_Y);
+        } else {
+            if (ControlType.getInstance().getSelectedIndex() == 1) {
+                character.setLocation(VELOCITY_SOURCE_X, VELOCITY_SOURCE_Y);
+            }
+        }
         character.commandFinished = false;
         character.lastTimeNotOnTarget = System.currentTimeMillis();
         character.pidController.reset();
         character.feedForwardController.reset();
+    }
+
+    public void update() {
+        if (!commandFinished) {
+            if (ControlType.getInstance().getSelectedIndex() == 0) {
+                runPosition();
+            } else if (ControlType.getInstance().getSelectedIndex() == 1) {
+                runVelocity();
+            }
+        }
+        if (!pidController.isOnTarget()) {
+            lastTimeNotOnTarget = System.currentTimeMillis();
+        }
     }
 
     public void setPID(double kP, double kI, double kD, double tolerance, double waitTime) {
@@ -112,5 +97,48 @@ public class Character extends Rectangle {
 
     public void setFF(double kS, double kV, double kA) {
         feedForwardController.setGains(kS, kV, kA);
+    }
+
+    public double getLastSpeed() {
+        return lastSpeed;
+    }
+
+    private void runPosition() {
+        commandFinished = (System.currentTimeMillis() - lastTimeNotOnTarget >=
+                pidSettings.getWaitTime() * MILLISECONDS_IN_SECOND && pidController.isOnTarget());
+        int moveValue = pidController.calculate(this.x, Setpoint.getInstance().x) +
+                feedForwardController.calculate(this.x, Setpoint.getInstance().x);
+        moveValue = (int) normalizeSpeed(moveValue);
+        if (Math.abs(moveValue - lastSpeed) > MAX_ACCELERATION) {
+            if (lastSpeed > moveValue) moveValue = (int) (lastSpeed - MAX_ACCELERATION);
+            if (lastSpeed < moveValue) moveValue = (int) (lastSpeed + MAX_ACCELERATION);
+        }
+        this.translate(moveValue, 0);
+        lastSpeed = moveValue;
+    }
+
+    private void runVelocity() {
+        int moveValue = pidController.calculate(lastSpeed, Setpoint.getInstance().x) +
+                feedForwardController.calculate(lastSpeed, Setpoint.getInstance().x);
+        moveValue = (int) normalizeSpeed(moveValue);
+        if (Math.abs(moveValue - lastSpeed) > MAX_ACCELERATION) {
+            if (lastSpeed > moveValue) moveValue = (int) (lastSpeed - MAX_ACCELERATION);
+            if (lastSpeed < moveValue) moveValue = (int) (lastSpeed + MAX_ACCELERATION);
+        }
+        lastSpeed = moveValue;
+    }
+
+    private double normalizeSpeed(double speed) {
+        if (speed != 0) {
+            if (speed > 0) speed -= FRICTION;
+            if (speed < 0) speed += FRICTION;
+            if (Math.abs(speed) > MAX_SPEED) speed = (int) (MAX_SPEED * Math.signum(speed));
+        } else if (Math.abs(speed) < FRICTION) speed = 0;
+        return speed;
+    }
+
+    private double normalizeNoFriction(double speed) {
+        if (Math.abs(speed) > MAX_SPEED) speed = (int) (MAX_SPEED * Math.signum(speed));
+        return speed;
     }
 }

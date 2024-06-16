@@ -1,5 +1,6 @@
 package simulator;
 
+import simulator.control.ControlType;
 import simulator.information.Status;
 import simulator.textfields.BaseTextField;
 
@@ -27,6 +28,7 @@ public class Window extends JPanel {
     private final BaseTextField kVField;
     private final BaseTextField kAField;
     private final BaseTextField setpointField;
+    private final ControlType controlType;
     private final Status status;
 
     private Window() {
@@ -49,8 +51,22 @@ public class Window extends JPanel {
         kVField = new BaseTextField("kV", 600, 100);
         kAField = new BaseTextField("kA", 900, 100);
         setpointField = new BaseTextField("setpoint", 30, 722);
+        controlType = ControlType.getInstance();
         configureTextFields();
         this.add(rerunButton);
+        this.add(controlType);
+    }
+
+    public static void initGame() {
+        JFrame frame = new JFrame();
+        Window window = new Window();
+        frame.add(window);
+        frame.pack();
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+        while (true) {
+            window.update();
+        }
     }
 
     @Override
@@ -59,6 +75,9 @@ public class Window extends JPanel {
         Graphics2D g2 = (Graphics2D) g;
         g2.setColor(Color.WHITE);
         g2.fill(character);
+        if (ControlType.getInstance().getSelectedIndex() == 1) {
+            g2.drawString("Velocity: " + character.getLastSpeed(), character.x, character.y);
+        }
         g2.setColor(Color.RED);
         g2.fill(setpoint);
     }
@@ -74,14 +93,18 @@ public class Window extends JPanel {
 
     private void update() {
         delay(PERIODIC_FRAME);
-        setpoint.setPosition((int) setpointField.getValue());
+        configurePIDF();
+        character.update();
+        status.update();
+        repaint();
+    }
+
+    private void configurePIDF() {
+        setpoint.setSetpoint((int) setpointField.getValue());
         character.setPID(kPField.getValue(), kIField.getValue(), kDField.getValue(), toleranceField.getValue(),
                 waitTimeField.getValue());
         character.setIZone((int) iZoneField.getValue());
         character.setFF(kSField.getValue(), kVField.getValue(), kAField.getValue());
-        character.update();
-        status.update();
-        repaint();
     }
 
     private void configureTextFields() {
@@ -96,17 +119,5 @@ public class Window extends JPanel {
         this.add(kAField);
         this.add(status);
         this.add(setpointField);
-    }
-
-    public static void initGame() {
-        JFrame frame = new JFrame();
-        Window window = new Window();
-        frame.add(window);
-        frame.pack();
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-        while (true) {
-            window.update();
-        }
     }
 }
