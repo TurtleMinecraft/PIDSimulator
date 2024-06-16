@@ -87,7 +87,7 @@ public class Window extends JPanel {
         Graphics2D g2 = (Graphics2D) g;
         g2.setColor(Color.WHITE);
         g2.fill(character);
-        if (ControlType.getInstance().getSelectedIndex() == 1) {
+        if (ControlType.getInstance().getSelectedIndex() == ControlType.Types.VELOCITY.index) {
             g2.drawString("Velocity: " + character.getLastSpeed(), character.x, character.y);
         }
         g2.setColor(Color.RED);

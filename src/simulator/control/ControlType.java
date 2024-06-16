@@ -4,10 +4,19 @@ import simulator.Character;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class ControlType extends JComboBox<String> {
+
+    public enum Types {
+
+        POSITION(0), VELOCITY(1);
+
+        public int index;
+
+        Types(int index) {
+            this.index = index;
+        }
+    }
 
     private static final int WIDTH = 140;
     private static final int HEIGHT = 65;

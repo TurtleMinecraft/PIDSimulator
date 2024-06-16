@@ -24,7 +24,7 @@ public class BaseTextField extends JTextField {
     public double getValue() {
         try {
             return Double.parseDouble(this.getText());
-        } catch(NumberFormatException e) {
+        } catch (NumberFormatException e) {
             return 0;
         }
     }

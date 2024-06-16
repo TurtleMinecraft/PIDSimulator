@@ -51,10 +51,10 @@ public class Character extends Rectangle {
     public static void reset() {
         Character character = getInstance();
         character.lastSpeed = 0;
-        if (ControlType.getInstance().getSelectedIndex() == 0) {
+        if (ControlType.getInstance().getSelectedIndex() == ControlType.Types.POSITION.index) {
             character.setLocation(POSITION_SOURCE_X, POSITION_SOURCE_Y);
         } else {
-            if (ControlType.getInstance().getSelectedIndex() == 1) {
+            if (ControlType.getInstance().getSelectedIndex() == ControlType.Types.VELOCITY.index) {
                 character.setLocation(VELOCITY_SOURCE_X, VELOCITY_SOURCE_Y);
             }
         }
@@ -66,9 +66,9 @@ public class Character extends Rectangle {
 
     public void update() {
         if (!commandFinished) {
-            if (ControlType.getInstance().getSelectedIndex() == 0) {
+            if (ControlType.getInstance().getSelectedIndex() == ControlType.Types.POSITION.index) {
                 runPosition();
-            } else if (ControlType.getInstance().getSelectedIndex() == 1) {
+            } else if (ControlType.getInstance().getSelectedIndex() == ControlType.Types.VELOCITY.index) {
                 runVelocity();
             }
         }

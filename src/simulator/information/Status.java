@@ -5,7 +5,6 @@ import simulator.Setpoint;
 import simulator.control.ControlType;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 
 public class Status extends JPanel {
@@ -41,11 +40,11 @@ public class Status extends JPanel {
     }
 
     public void update() {
-        if (ControlType.getInstance().getSelectedIndex() == 0) {
+        if (ControlType.getInstance().getSelectedIndex() == ControlType.Types.POSITION.index) {
             characterError.setText("Error: " + (Setpoint.getInstance().x - Character.getInstance().x));
             errorRate.setText("Error rate: " + (Character.getInstance().getPIDController().getErrorRate()));
         } else {
-            if (ControlType.getInstance().getSelectedIndex() == 1) {
+            if (ControlType.getInstance().getSelectedIndex() == ControlType.Types.VELOCITY.index) {
                 characterError.setText("Error: " + (Setpoint.getInstance().x - Character.getInstance().getLastSpeed()));
                 errorRate.setText("Error rate: " + (Character.getInstance().getPIDController().getErrorRate()));
             }

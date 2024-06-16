@@ -27,7 +27,7 @@ public class Setpoint extends Rectangle {
 
     public void setSetpoint(int position) {
         this.x = position;
-        if (ControlType.getInstance().getSelectedIndex() != 0) {
+        if (ControlType.getInstance().getSelectedIndex() != ControlType.Types.POSITION.index) {
             this.setSize(-1, -1);
         } else {
             this.setSize(WIDTH, HEIGHT);
