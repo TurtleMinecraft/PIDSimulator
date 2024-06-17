@@ -6,9 +6,10 @@ import java.awt.*;
 
 public class Character extends Rectangle {
 
+    public static final int WIDTH = 32;
+    public static final int HEIGHT = 32;
+
     private static final int MILLISECONDS_IN_SECOND = 1000;
-    private static final int WIDTH = 32;
-    private static final int HEIGHT = 32;
 
     private static final int POSITION_SOURCE_X = 0;
     private static final int POSITION_SOURCE_Y = 320;

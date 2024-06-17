@@ -2,18 +2,18 @@ package simulator.information;
 
 import simulator.Character;
 import simulator.Setpoint;
+import simulator.Window;
 import simulator.control.ControlType;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Set;
 
 public class Status extends JPanel {
 
-    private static final int WIDTH = 640;
-    private static final int HEIGHT = 640;
-    private static final int X = 800;
-    private static final int Y = 480;
+    public static final int WIDTH = Window.WINDOW_WIDTH;
+    public static final int HEIGHT = 640;
+    private static final int X = 0;
+    private static final int Y = Window.WINDOW_HEIGHT - HEIGHT;
     private static final int FONT_SIZE = 20;
 
     private static final int INFO_TEXT_WIDTH = 400;

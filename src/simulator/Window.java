@@ -5,27 +5,34 @@ import simulator.information.Status;
 import simulator.textfields.BaseTextField;
 
 import javax.swing.*;
+import javax.tools.Tool;
 import java.awt.*;
 
 public class Window extends JPanel {
 
-    private static final int MILLISECONDS_IN_SECOND = 1000;
     public static final double PERIODIC_FRAME = 0.02;
+    public static final int WINDOW_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().width;
+    public static final int WINDOW_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height;
+    private static final int MILLISECONDS_IN_SECOND = 1000;
 
-    private static final int WINDOW_WIDTH = 1280;
-    private static final int WINDOW_HEIGHT = 792;
-    private static final boolean IS_DOUBLE_BUFFERED = true;
+    public static final boolean IS_DOUBLE_BUFFERED = true;
 
-    private static final Point P_FIELD_LOCATION = new Point(300, 30);
-    private static final Point I_FIELD_LOCATION = new Point(600, 30);
-    private static final Point D_FIELD_LOCATION = new Point(900, 30);
+    private static final Point P_FIELD_LOCATION =
+            new Point((int) (WINDOW_WIDTH / 2 - BaseTextField.FIELD_WIDTH * 2.5 - 30), 30);
+    private static final Point I_FIELD_LOCATION = new Point(WINDOW_WIDTH / 2 - BaseTextField.FIELD_WIDTH / 2, 30);
+    private static final Point D_FIELD_LOCATION =
+            new Point((int) (WINDOW_WIDTH / 2 + BaseTextField.FIELD_WIDTH * 1.5 + 30), 30);
     private static final Point I_ZONE_FIELD_LOCATION = new Point(30, 30);
-    private static final Point TOLERANCE_FIELD_LOCATION = new Point(450, 65);
-    private static final Point WAIT_TIME_FIELD_LOCATION = new Point(750, 65);
-    private static final Point S_FIELD_LOCATION = new Point(300, 100);
-    private static final Point V_FIELD_LOCATION = new Point(600, 100);
-    private static final Point A_FIELD_LOCATION = new Point(900, 100);
-    private static final Point SETPOINT_FIELD_LOCATION = new Point(30, 722);
+    private static final Point TOLERANCE_FIELD_LOCATION =
+            new Point((int) (WINDOW_WIDTH / 2 - BaseTextField.FIELD_WIDTH * 1.5 - 15), 65);
+    private static final Point WAIT_TIME_FIELD_LOCATION =
+            new Point(WINDOW_WIDTH / 2 + BaseTextField.FIELD_WIDTH / 2 + 15, 65);
+    private static final Point S_FIELD_LOCATION =
+            new Point((int) (WINDOW_WIDTH / 2 - BaseTextField.FIELD_WIDTH * 2.5 - 30), 100);
+    private static final Point V_FIELD_LOCATION = new Point(WINDOW_WIDTH / 2 - BaseTextField.FIELD_WIDTH / 2, 100);
+    private static final Point A_FIELD_LOCATION =
+            new Point((int) (WINDOW_WIDTH / 2 + BaseTextField.FIELD_WIDTH * 1.5 + 30), 100);
+    private static final Point SETPOINT_FIELD_LOCATION = new Point(WINDOW_WIDTH - BaseTextField.FIELD_WIDTH - 30, 30);
 
     private final Character character;
     private final Setpoint setpoint;

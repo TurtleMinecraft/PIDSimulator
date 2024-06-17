@@ -8,8 +8,8 @@ import java.util.ArrayList;
 
 public class ErrorGraph extends JPanel {
 
-    private static final int WIDTH = 640;
-    private static final int HEIGHT = 390;
+    public static final int WIDTH = Status.WIDTH;
+    public static final int HEIGHT = 390;
     private static final int X = 0;
     private static final int Y = 150;
 
