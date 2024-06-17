@@ -92,7 +92,15 @@ public class Character extends Rectangle {
     }
 
     public double getError() {
-        return Setpoint.getInstance().x - this.x;
+        if (ControlType.getInstance().getSelectedIndex() == ControlType.Types.POSITION.index) {
+            return Setpoint.getInstance().x - this.x;
+        } else {
+            if (ControlType.getInstance().getSelectedIndex() == ControlType.Types.VELOCITY.index) {
+                return Setpoint.getInstance().x - lastSpeed;
+            } else {
+                return 0;
+            }
+        }
     }
 
     public void setFF(double kS, double kV, double kA) {

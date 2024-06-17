@@ -1,5 +1,7 @@
 package simulator;
 
+import simulator.information.ErrorGraph;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -28,6 +30,7 @@ public class RerunButton extends JButton {
         this.setBounds(X, Y, WIDTH, HEIGHT);
         this.addActionListener(e -> {
             Character.reset();
+            ErrorGraph.reset();
         });
     }
 }

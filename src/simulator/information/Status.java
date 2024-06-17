@@ -6,6 +6,7 @@ import simulator.control.ControlType;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Set;
 
 public class Status extends JPanel {
 
@@ -25,6 +26,7 @@ public class Status extends JPanel {
     private BaseInfoField characterError;
     private BaseInfoField errorRate;
     private BaseInfoField commandEnded;
+    private ErrorGraph errorGraph;
 
     private static Status instance;
 
@@ -42,9 +44,11 @@ public class Status extends JPanel {
                 "Error rate: " + Character.getInstance().getPIDController().getErrorRate());
         commandEnded = new BaseInfoField(COMMAND_ENDED_LOCATION, INFO_TEXT_WIDTH, INFO_TEXT_HEIGHT, "Command ended: " +
                 Character.getInstance().commandEnded());
+        errorGraph = ErrorGraph.getInstance();
         this.add(characterError);
         this.add(errorRate);
         this.add(commandEnded);
+        this.add(errorGraph);
         this.setLayout(null);
         this.setVisible(true);
         this.setBounds(X, Y, WIDTH, HEIGHT);
@@ -63,5 +67,6 @@ public class Status extends JPanel {
                 commandEnded.setText("Command ended: " + Character.getInstance().commandEnded());
             }
         }
+        errorGraph.addPoint((int) Character.getInstance().getError());
     }
 }
