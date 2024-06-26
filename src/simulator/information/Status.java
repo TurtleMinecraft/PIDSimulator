@@ -11,17 +11,17 @@ import java.awt.*;
 public class Status extends JPanel {
 
     public static final int WIDTH = Window.WINDOW_WIDTH;
-    public static final int HEIGHT = 640;
+    public static final int HEIGHT = Window.WINDOW_HEIGHT / 2;
+    public static final int INFO_TEXT_WIDTH = WIDTH;
+    public static final int INFO_TEXT_HEIGHT = HEIGHT / 15;
+
     private static final int X = 0;
     private static final int Y = Window.WINDOW_HEIGHT - HEIGHT;
     private static final int FONT_SIZE = 20;
 
-    private static final int INFO_TEXT_WIDTH = 400;
-    private static final int INFO_TEXT_HEIGHT = 50;
-
     private static final Point ERROR_LOCATION = new Point(0, 0);
-    private static final Point ERROR_RATE_LOCATION = new Point(0, 50);
-    private static final Point COMMAND_ENDED_LOCATION = new Point(0, 100);
+    private static final Point ERROR_RATE_LOCATION = new Point(0, INFO_TEXT_HEIGHT);
+    private static final Point COMMAND_ENDED_LOCATION = new Point(0, INFO_TEXT_HEIGHT * 2);
 
     private BaseInfoField characterError;
     private BaseInfoField errorRate;

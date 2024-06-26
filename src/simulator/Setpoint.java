@@ -10,7 +10,7 @@ public class Setpoint extends Rectangle {
     private static final int HEIGHT = 32;
 
     private static final int SOURCE_X = 1000;
-    private static final int SOURCE_Y = 320;
+    private static final int SOURCE_Y = Window.WINDOW_HEIGHT / 3;
 
     private static Setpoint instance;
 

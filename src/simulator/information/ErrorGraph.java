@@ -9,9 +9,9 @@ import java.util.ArrayList;
 public class ErrorGraph extends JPanel {
 
     public static final int WIDTH = Status.WIDTH;
-    public static final int HEIGHT = 390;
+    public static final int HEIGHT = Status.HEIGHT - Status.INFO_TEXT_HEIGHT * 3;
     private static final int X = 0;
-    private static final int Y = 150;
+    private static final int Y = Status.INFO_TEXT_HEIGHT * 3;
 
     private static final int POINT_WIDTH = 2;
     private static final int POINT_HEIGHT = 2;

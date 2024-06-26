@@ -1,12 +1,14 @@
 package simulator.textfields;
 
+import simulator.Window;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class BaseTextField extends JTextField {
 
-    public static final int FIELD_WIDTH = 140;
-    public static final int FIELD_HEIGHT = 65;
+    public static final int FIELD_WIDTH = Window.WINDOW_WIDTH / 15;
+    public static final int FIELD_HEIGHT = Window.WINDOW_HEIGHT / 20;
 
     private static final int FONT_SIZE = 40;
 

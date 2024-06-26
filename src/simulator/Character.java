@@ -12,9 +12,9 @@ public class Character extends Rectangle {
     private static final int MILLISECONDS_IN_SECOND = 1000;
 
     private static final int POSITION_SOURCE_X = 0;
-    private static final int POSITION_SOURCE_Y = 320;
+    private static final int POSITION_SOURCE_Y = Window.WINDOW_HEIGHT / 3;
 
-    private static final int VELOCITY_SOURCE_X = 640;
+    private static final int VELOCITY_SOURCE_X = Window.WINDOW_WIDTH / 2;
     private static final int VELOCITY_SOURCE_Y = 320;
 
     private static final int MAX_SPEED = 120;
