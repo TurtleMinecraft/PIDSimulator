@@ -18,8 +18,10 @@ public class Character extends Rectangle {
     private static final int VELOCITY_SOURCE_Y = 320;
 
     private static final int MAX_SPEED = 120;
-    private static final int MAX_ACCELERATION = 2;
+    private static final int MAX_ACCELERATION = 6;
     private static final int FRICTION = 3;
+    private static final double POSITION_RANDOM_FACTOR = 3.6;
+    private static final double VELOCITY_RANDOM_FACTOR = 0.12;
 
     private final PIDSettings pidSettings;
     private final PIDController pidController;
@@ -121,11 +123,12 @@ public class Character extends Rectangle {
                 pidSettings.getWaitTime() * MILLISECONDS_IN_SECOND && pidController.isOnTarget());
         int moveValue = pidController.calculate(this.x, Setpoint.getInstance().x) +
                 feedForwardController.calculate(this.x, Setpoint.getInstance().x);
-        moveValue = (int) normalizeSpeed(moveValue);
+        moveValue += (Math.random() * 1.33 - 0.33) * POSITION_RANDOM_FACTOR * Math.pow(moveValue, 2) / MAX_SPEED;
         if (Math.abs(moveValue - lastSpeed) > MAX_ACCELERATION) {
             if (lastSpeed > moveValue) moveValue = (int) (lastSpeed - MAX_ACCELERATION);
             if (lastSpeed < moveValue) moveValue = (int) (lastSpeed + MAX_ACCELERATION);
         }
+        moveValue = (int) normalizeSpeed(moveValue);
         this.translate(moveValue, 0);
         lastSpeed = moveValue;
     }
@@ -133,6 +136,7 @@ public class Character extends Rectangle {
     private void runVelocity() {
         int moveValue = pidController.calculate(lastSpeed, Setpoint.getInstance().x) +
                 feedForwardController.calculate(lastSpeed, Setpoint.getInstance().x);
+        moveValue += (Math.random() * 1.33 - 0.33) * VELOCITY_RANDOM_FACTOR * Math.pow(moveValue, 2) / MAX_SPEED;
         moveValue = (int) normalizeSpeed(moveValue);
         if (Math.abs(moveValue - lastSpeed) > MAX_ACCELERATION) {
             if (lastSpeed > moveValue) moveValue = (int) (lastSpeed - MAX_ACCELERATION);

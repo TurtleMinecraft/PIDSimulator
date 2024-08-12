@@ -4,6 +4,7 @@ import simulator.Setpoint;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
 public class ErrorGraph extends JPanel {
