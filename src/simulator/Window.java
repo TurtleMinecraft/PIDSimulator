@@ -106,7 +106,6 @@ public class Window extends JPanel {
         long targetTime = (long) (System.currentTimeMillis() + seconds * MILLISECONDS_IN_SECOND);
         while (targetTime > currentTime) {
             currentTime = System.currentTimeMillis();
-            repaint(character);
         }
     }
 
