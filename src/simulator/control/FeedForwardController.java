@@ -63,7 +63,6 @@ public class FeedForwardController {
         double error = setpoint - source;
         double targetDerivative = (setpoint - previousTarget) / Window.PERIODIC_FRAME;
         previousTarget = setpoint;
-        double staticVal;
         if (ControlType.getInstance().getSelectedIndex() == ControlType.Types.VELOCITY.index) {
             return (int) (kS + kV * setpoint + kA * targetDerivative);
         } else {

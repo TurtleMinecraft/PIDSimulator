@@ -147,10 +147,11 @@ public class Character extends Rectangle {
 
     private double normalizeSpeed(double speed) {
         if (speed != 0) {
-            if (speed > 0) speed -= FRICTION;
-            if (speed < 0) speed += FRICTION;
+            if (speed > FRICTION) speed -= FRICTION;
+            else if (speed < -FRICTION) speed += FRICTION;
+            else return 0;
             if (Math.abs(speed) > MAX_SPEED) speed = (int) (MAX_SPEED * Math.signum(speed));
-        } else if (Math.abs(speed) < FRICTION) speed = 0;
+        }
         return speed;
     }
 }
