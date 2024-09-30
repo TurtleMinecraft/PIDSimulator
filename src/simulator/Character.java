@@ -21,7 +21,6 @@ public class Character extends Rectangle {
     private static final int MAX_ACCELERATION = 6;
     private static final int FRICTION = 3;
     private static final double POSITION_RANDOM_FACTOR = 3.6;
-    private static final double VELOCITY_RANDOM_FACTOR = 0.12;
 
     private final PIDSettings pidSettings;
     private final PIDController pidController;
@@ -123,7 +122,7 @@ public class Character extends Rectangle {
                 pidSettings.getWaitTime() * MILLISECONDS_IN_SECOND && pidController.isOnTarget());
         int moveValue = pidController.calculate(this.x, Setpoint.getInstance().x) +
                 feedForwardController.calculate(this.x, Setpoint.getInstance().x);
-        moveValue += (Math.random() * 1.33 - 0.33) * POSITION_RANDOM_FACTOR * Math.pow(moveValue, 2) / MAX_SPEED;
+        moveValue += (Math.random() - 0.5) * POSITION_RANDOM_FACTOR * Math.pow(moveValue, 2) / MAX_SPEED;
         if (Math.abs(moveValue - lastSpeed) > MAX_ACCELERATION) {
             if (lastSpeed > moveValue) moveValue = (int) (lastSpeed - MAX_ACCELERATION);
             if (lastSpeed < moveValue) moveValue = (int) (lastSpeed + MAX_ACCELERATION);
@@ -134,9 +133,9 @@ public class Character extends Rectangle {
     }
 
     private void runVelocity() {
-        int moveValue = pidController.calculate(lastSpeed, Setpoint.getInstance().x) +
-                feedForwardController.calculate(lastSpeed, Setpoint.getInstance().x);
-        moveValue += (Math.random() * 1.33 - 0.33) * VELOCITY_RANDOM_FACTOR * Math.pow(moveValue, 2) / MAX_SPEED;
+        int moveValue = pidController.calculate(lastSpeed, Setpoint.getInstance().x);
+        double feedForward = feedForwardController.calculate(lastSpeed, Setpoint.getInstance().x);
+        moveValue += feedForward * Math.pow(Math.E, -(Math.pow(feedForward / MAX_SPEED, 2) / Math.pow(MAX_SPEED, 0.25)));
         moveValue = (int) normalizeSpeed(moveValue);
         if (Math.abs(moveValue - lastSpeed) > MAX_ACCELERATION) {
             if (lastSpeed > moveValue) moveValue = (int) (lastSpeed - MAX_ACCELERATION);
