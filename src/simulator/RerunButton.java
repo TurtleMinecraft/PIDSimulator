@@ -1,15 +1,18 @@
+package simulator;
+
+import simulator.information.ErrorGraph;
+import simulator.textfields.BaseTextField;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class RerunButton extends JButton {
 
-    private static final int WIDTH = 100;
-    private static final int HEIGHT = 45;
+    public static final int WIDTH = 100;
+    public static final int HEIGHT = 45;
 
-    private static final int X = 620;
-    private static final int Y = 700;
+    private static final int X = Window.WINDOW_WIDTH / 2 - WIDTH / 2;
+    private static final int Y = 200;
 
     private static RerunButton instance;
 
@@ -28,6 +31,7 @@ public class RerunButton extends JButton {
         this.setBounds(X, Y, WIDTH, HEIGHT);
         this.addActionListener(e -> {
             Character.reset();
+            ErrorGraph.reset();
         });
     }
 }

@@ -1,3 +1,7 @@
+package simulator;
+
+import simulator.control.ControlType;
+
 import java.awt.*;
 
 public class Setpoint extends Rectangle {
@@ -6,7 +10,7 @@ public class Setpoint extends Rectangle {
     private static final int HEIGHT = 32;
 
     private static final int SOURCE_X = 1000;
-    private static final int SOURCE_Y = 320;
+    private static final int SOURCE_Y = Window.WINDOW_HEIGHT / 3;
 
     private static Setpoint instance;
 
@@ -19,5 +23,14 @@ public class Setpoint extends Rectangle {
 
     private Setpoint(int width, int height, int sourceX, int sourceY) {
         super(sourceX, sourceY, width, height);
+    }
+
+    public void setSetpoint(int position) {
+        this.x = position;
+        if (ControlType.getInstance().getSelectedIndex() != ControlType.Types.POSITION.index) {
+            this.setSize(-1, -1);
+        } else {
+            this.setSize(WIDTH, HEIGHT);
+        }
     }
 }
